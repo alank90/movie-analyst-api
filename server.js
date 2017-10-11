@@ -162,5 +162,5 @@ app.get('/pending', function (req, res) {
 
 // Launch the API Server and have it listen on port 8080
 app.listen(8080, function () {
-    console.log('Express Server started. Listening on port 8080');
+    console.log('Express Server Movie-Analyst API started. Listening on port 8080');
 });
