@@ -4,13 +4,15 @@ const app = express();
 
 const jwt = require('express-jwt');
 const rsaValidation = require('auth0-api-jwt-rsa-validation');
-console.log("im in API");
-// ================================================================================================
-// ============= Middlware Below This Line =========================================================== 
-// ================================================================================================
 
-// jwtCheck middleware
-// We’ll create a middleware function to validate the access token when our API is called
+// ===================================================================================================
+// ============= Middlware Below This Line =========================================================== 
+// ===================================================================================================
+
+// jwtCheck middleware to validate the access token when our API is called.The JWT authentication 
+// middleware authenticates callers using a JWT(JSON Web Token). If the token is valid, req.user 
+// will be set with the JSON object decoded to be used by later middleware (in this instance guard()) 
+// for authorization and access control.
 // Note that the audience field is the identifier you gave to your API.
 const jwtCheck = jwt({
     secret: rsaValidation(),
@@ -20,8 +22,8 @@ const jwtCheck = jwt({
 });
 
 const guard = function (req, res, next) {
-    console.log('The req path: ' + req.path );
     console.log(req.user);
+    
     // we’ll use a case switch statement on the route requested
     switch (req.path) {
         // if the request is for movie reviews we’ll check to see if the token has general scope
