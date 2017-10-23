@@ -106,7 +106,7 @@ app.use(function(req, res, next){
 });
 
 
-// Middleware to use imported routes from /routes/api.js
+// Middleware to use imported routes from /routes/
 app.use('/', routes);
 
 

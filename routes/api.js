@@ -10,17 +10,16 @@ const db = monk('localhost:27017/movie-analyst');
 // ================================================================================================
 // ============= Routes Below This Line =========================================================== 
 // ================================================================================================
-
 // Implement the movies API endpoint
 router.get('/movies', function (req, res) {
-    // Get a list of movies and their review scores
-    const movieCollection = db.get('movies');
-    movieCollection.find({})
-      .then(function(movies) {
-          // Send the response as a JSON array
-         res.json(movies);      
-       });
- });
+  // Get a list of movies and their review scores
+  const movieCollection = db.get('movies');
+  movieCollection.find({})
+    .then(function(movies) {
+        // Send the response as a JSON array
+       res.json(movies);      
+     });
+});
 
 // Implement the Reviewers API endpoint
 router.get('/reviewers', function (req, res) {
