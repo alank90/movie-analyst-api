@@ -1,6 +1,13 @@
 // Get Our Dependencies
 const express = require('express');
 const app = express();
+const path = require('path');
+const bodyParser = require('body-parser');
+
+// Mongodb Dependencies
+const mongo = require ('mongodb');
+const monk = require('monk');
+const db = monk('localhost:27017/movie-analyst');
 
 const jwt = require('express-jwt');
 const rsaValidation = require('auth0-api-jwt-rsa-validation');
@@ -24,13 +31,11 @@ const jwtCheck = jwt({
 });
 
 const guard = function (req, res, next) {
-    console.log(req.user);
-    
+        
     // we’ll use a case switch statement on the route requested
     switch (req.path) {
         // if the request is for movie reviews we’ll check to see if the token has general scope
         case '/movies': {
-            console.log(req.user);
             const permissions = ['general'];
             for (var i = 0; i < permissions.length; i++) {
                 if (req.user.scope.includes(permissions[i])) {
@@ -83,8 +88,8 @@ const guard = function (req, res, next) {
 };
 
 // Enable the use of the jwtCheck middleware in all of our routes
-app.use(jwtCheck);
-app.use(guard);
+//app.use(jwtCheck);
+//app.use(guard);
 
 // If we do not get the correct credentials, we’ll return an appropriate message
 // Note- This is error-handling middleware so it takes four arguments
@@ -93,6 +98,13 @@ app.use(function (err, req, res, next) {
         res.status(401).json({ message: 'Missing or invalid token' });
     }
 });
+
+// Middleware to make the db accessible to the router
+app.use(function(req, res, next){
+    req.db = db;
+    next();
+});
+
 
 // Middleware to use imported routes from /routes/api.js
 app.use('/', routes);
