@@ -91,14 +91,6 @@ const guard = function (req, res, next) {
 app.use(jwtCheck);
 app.use(guard);
 
-// If we do not get the correct credentials, we’ll return an appropriate message
-// Note- This is error-handling middleware so it takes four arguments
-app.use(function (err, req, res, next) {
-    if (err.name === 'UnauthorizedError') {
-        res.status(401).json({ message: 'Missing or invalid token' });
-    }
-});
-
 // Middleware to make the db accessible to the router
 app.use(function(req, res, next){
     req.db = db;
@@ -108,6 +100,14 @@ app.use(function(req, res, next){
 
 // Middleware to use imported routes from /routes/
 app.use('/', routes);
+
+// If we do not get the correct credentials, we’ll return an appropriate message
+// Note- This is error-handling middleware so it takes four arguments
+app.use(function (err, req, res, next) {
+    if (err.name === 'UnauthorizedError') {
+        res.status(401).json({ message: 'Missing or invalid token' });
+    }
+});
 
 
 // Launch the API Server and have it listen on port 8080
