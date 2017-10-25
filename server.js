@@ -3,16 +3,21 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
+const jwt = require('express-jwt');
+const rsaValidation = require('auth0-api-jwt-rsa-validation');
 
 // Mongodb Dependencies
 const mongo = require ('mongodb');
 const monk = require('monk');
 const db = monk('localhost:27017/movie-analyst');
 
-const jwt = require('express-jwt');
-const rsaValidation = require('auth0-api-jwt-rsa-validation');
 
-const routes = require('./routes/api');
+// Import API Routes
+const movies_route = require('./routes/movies');
+const authors_route = require('./routes/authors');
+const publications_route = require('./routes/publications');
+const pending_route = require('./routes/pending');
+
 
 // ===================================================================================================
 // ============= Middlware Below This Line =========================================================== 
@@ -74,7 +79,7 @@ const guard = function (req, res, next) {
         // For the pending route, we’ll check to make sure the token has the scope of admin before returning the results.
         case '/pending': {
             const permissions = ['admin'];
-            console.log(req.user.scope);
+            // console.log(req.user.scope);
             for (var i = 0; i < permissions.length; i++) {
                 if (req.user.scope.includes(permissions[i])) {
                     next();
@@ -89,17 +94,13 @@ const guard = function (req, res, next) {
 
 // Enable the use of the jwtCheck middleware in all of our routes
 app.use(jwtCheck);
-app.use(guard);
+app.use(guard); 
 
-// Middleware to make the db accessible to the router
-app.use(function(req, res, next){
-    req.db = db;
-    next();
-});
-
-
-// Middleware to use imported routes from /routes/
-app.use('/', routes);
+// Use the Middleware from /routes
+app.use('/movies', movies_route);
+app.use('/reviewers', authors_route);
+app.use('/publications', publications_route);
+app.use('/pending', pending_route);
 
 // If we do not get the correct credentials, we’ll return an appropriate message
 // Note- This is error-handling middleware so it takes four arguments
