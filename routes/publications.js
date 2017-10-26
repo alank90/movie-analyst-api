@@ -2,11 +2,10 @@
 var express = require('express');
 var router = express.Router();
 
-const monk = require('monk'); 
-const db = monk('localhost:27017/movie-analyst');
-
 // Implement the publications API endpoint
 router.get('/', function (req, res) {
+     // This includes monk into our router
+    const db = req.db; 
     // Get a list of publications
     const publicationsCollection = db.get('publications');
     publicationsCollection.find({})

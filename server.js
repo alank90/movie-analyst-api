@@ -96,6 +96,14 @@ const guard = function (req, res, next) {
 app.use(jwtCheck);
 app.use(guard); 
 
+// Make our db accessible to our router.
+// Without this middleware, have to include monk 
+// in every route
+app.use(function(req,res,next){
+    req.db = db;
+    next();
+});
+
 // Use the Middleware from /routes
 app.use('/movies', movies_route);
 app.use('/reviewers', authors_route);

@@ -2,10 +2,10 @@
 var express = require('express');
 var router = express.Router();
 
-const monk = require('monk'); 
-const db = monk('localhost:27017/movie-analyst');
 
-router.get('/', function(req, res) { 
+router.get('/', function(req, res) {
+   // This includes monk into our router
+  const db = req.db;  
    // Implement the Reviewers API endpoint
   const authorsCollection = db.get('authors');
   authorsCollection.find({})
