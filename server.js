@@ -93,8 +93,8 @@ const guard = function (req, res, next) {
 };
 
 // Enable the use of the jwtCheck middleware in all of our routes
-app.use(jwtCheck);
-app.use(guard); 
+// app.use(jwtCheck);
+// app.use(guard); 
 
 // Make our db accessible to our router.
 // Without this middleware, have to include monk 
