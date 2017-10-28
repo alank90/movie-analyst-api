@@ -23,6 +23,10 @@ const pending_route = require('./routes/pending');
 // ============= Middlware Below This Line =========================================================== 
 // ===================================================================================================
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+
 // jwtCheck middleware to validate the access token when our API is called.The JWT authentication 
 // middleware authenticates callers using a JWT(JSON Web Token). If the token is valid, req.user 
 // will be set with the JSON object decoded to be used by later middleware (in this instance guard()) 
