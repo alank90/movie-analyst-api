@@ -1,6 +1,12 @@
 // Dependencies Declarations
 var express = require('express');
 var router = express.Router();
+const bodyParser = require('body-parser');
+
+// body-parser allows express to go into request body and extract 
+// the json data and exposes it thru req.body
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({ extended: false }));
 
 // Implement the /movies API endpoint
 router.get('/', function(req, res) {
@@ -20,13 +26,11 @@ router.get('/', function(req, res) {
  * Put to Update movie.
  */
 router.put('/updatemovie/:id', function(req, res) {
-    res.send(req.params.id);
-    res.send(req.body);
     const db = req.db;
 
     const movieCollection = db.get("movies");
     const movieToUpdate = req.params.id; // Assign collection document id from url :id value
-    const movieName = req.body.name;
+    const movieTitle = req.body.title;
     const movieRelease = req.body.release;
     const movieScore = req.body.score;
     const movieReviewer = req.body.reviewer;
@@ -36,7 +40,7 @@ router.put('/updatemovie/:id', function(req, res) {
     movieCollection.update({'_id' : movieToUpdate}, 
         {
             $set: {
-              title: movieName,
+              title: movieTitle,
               release: movieRelease,
               score: movieScore,
               reviewer: movieReviewer,

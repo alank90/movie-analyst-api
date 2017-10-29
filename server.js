@@ -2,7 +2,6 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const bodyParser = require('body-parser');
 const jwt = require('express-jwt');
 const rsaValidation = require('auth0-api-jwt-rsa-validation');
 
@@ -22,9 +21,6 @@ const pending_route = require('./routes/pending');
 // ===================================================================================================
 // ============= Middlware Below This Line =========================================================== 
 // ===================================================================================================
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 
 
 // jwtCheck middleware to validate the access token when our API is called.The JWT authentication 
