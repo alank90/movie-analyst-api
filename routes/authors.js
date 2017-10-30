@@ -26,11 +26,27 @@ router.get('/', function(req, res) {
  * Put to Update reviewers.
  */
 router.put('/updatereviewer/:id', function(req, res) {
-   console.log(req.body.name);
    const db = req.db;
 
    const authorsCollection = db.get("authors");
-   res.end();
+   const reviewerToUpdate = req.params.id;
+   const reviewerName = req.body.name;
+   const reviewerPublication = req.body.publication;
+   const reviewerAvatar = req.body.avatar;
+
+   // Update the reviewer document from put info
+   authorsCollection.update({'_id' : reviewerToUpdate},
+      {
+        $set: {
+          name: reviewerName,
+          publication: reviewerPublication,
+          avatar: reviewerAvatar
+        }
+      },
+      function(err)  {
+        res.send((err === null) ? {msg: ''} : {msg: err});
+    }); // authorsCollection .update
+  
 });
 
 module.exports = router;
