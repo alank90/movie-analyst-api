@@ -1,8 +1,11 @@
 // Dependencies Declarations
 const express = require('express');
 const router = express.Router();
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const morgan = require('morgan'); // enhance logger
+
+router.use(cors());
 
 // body-parser allows express to go into request body and extract 
 // the json data and exposes it thru req.body
@@ -15,6 +18,7 @@ if (router.get('env') == 'production') {
 } else {
   router.use(morgan('dev'));
 }
+
 
 // Implement the /movies API endpoint
 router.get('/', function(req, res) {
@@ -33,7 +37,8 @@ router.get('/', function(req, res) {
 /*
  * Put to Update movie.
  */
-router.put('/updatemovie/:id', function(req, res) {
+router.options('updatemovie/:id', cors());  
+router.put('/updatemovie/:id', cors(), function(req, res) {
     const db = req.db;
     console.log(req.params.id);
     console.log(req.body.publication);
