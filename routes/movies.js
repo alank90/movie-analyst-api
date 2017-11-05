@@ -33,10 +33,10 @@ router.get('/', function(req, res) {
 /*
  * Put to Update movie.
  */
-router.post('/updatemovie/:id', function(req, res) {
+router.put('/updatemovie/:id', function(req, res) {
     const db = req.db;
-
-    console.log(req.body.title);
+    console.log(req.params.id);
+    console.log(req.body.publication);
 
     const movieCollection = db.get("movies");
     const movieToUpdate = req.params.id; // Assign collection document id from url :id value
