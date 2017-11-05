@@ -6,9 +6,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan'); // enhance logger
 
 // We need to use cors here because API is on different port then APP.
-// See below we use cors package on PUT route to send correct headers
-// to browser. See https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
-// For good writeup on CORS
+// See below we use cors package one of our callbacks on PUT route to send correct headers
 router.use(cors());
 
 // body-parser allows express to go into request body and extract 
