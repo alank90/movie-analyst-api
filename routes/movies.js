@@ -29,10 +29,10 @@ router.get('/', function(req, res) {
    // Get a list of movies and their review scores
   const movieCollection = db.get('movies');
   movieCollection.find({})
-    .then(function(movies) {
+  .then(function(movies) {
         // Send the response as a JSON array
        res.json(movies);      
-     });
+  });
   
 });
 
@@ -63,10 +63,12 @@ router.put('/updatemovie/:id', cors(), function(req, res) {
               reviewer: movieReviewer,
               publication: moviePublication
             }
-        },
-        function(err)  {
-            res.send((err === null) ? {msg: ''} : {msg: err});
-        }); // movieCollection .update
+    }); // movieCollection .update
+    movieCollection.find({'_id' : movieToUpdate})
+    .then(function(movie) {
+        // Send the response as a JSON array
+       res.json(movie);      
+     });
 
 });
 
