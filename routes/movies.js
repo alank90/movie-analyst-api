@@ -63,12 +63,14 @@ router.put('/updatemovie/:id', cors(), function(req, res) {
               reviewer: movieReviewer,
               publication: moviePublication
             }
-    }); // movieCollection .update
-    movieCollection.find({'_id' : movieToUpdate})
+    }) // movieCollection .update
     .then(function(movie) {
-        // Send the response as a JSON array
-       res.json(movie);      
-     });
+        movieCollection.find({'_id' : movieToUpdate})
+        .then(function(movie) {
+              // Send the response as a JSON array
+            res.json(movie);      
+        });
+    });
 
 });
 
