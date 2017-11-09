@@ -43,8 +43,7 @@ router.options('updatemovie/:id', cors());
 router.put('/updatemovie/:id', cors(), function(req, res) {
     const db = req.db;
     console.log(req.params.id);
-    console.log(req.body.publication);
-
+    
     const movieCollection = db.get("movies");
     const movieToUpdate = req.params.id; // Assign collection document id from url :id value
     const movieTitle = req.body.title;
@@ -66,7 +65,7 @@ router.put('/updatemovie/:id', cors(), function(req, res) {
     }) // movieCollection .update
     .then(function(movie) {
         movieCollection.find({'_id' : movieToUpdate})
-        .then(function(movie) {
+        .then(function(movie) {    // .then uses what is returned from promise(the .find op) ie, movie
               // Send the response as a JSON array
             res.json(movie);      
         });
