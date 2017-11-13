@@ -22,7 +22,10 @@ if (router.get('env') == 'production') {
 }
 
 
-// Implement the /movies API endpoint
+// ============== Implement the /movies API endpoints ==================
+// ====================================================================
+
+// ============== GET for movie route =================================
 router.get('/', function(req, res) {
   // This includes monk into our router
   const db = req.db; 
@@ -36,14 +39,41 @@ router.get('/', function(req, res) {
   
 });
 
-/*
- * Put to Update movie.
- */
+// ============ Add a Document Movie Route  w/CORS support =====================
+router.options('/addmovie', cors());
+router.post('/addmovie', cors(), function(req, res) {
+    const db = req.db;
+
+    const movieCollection = db.get("movies");
+    const movieTitle = req.body.title;
+    const movieRelease = req.body.release;
+    const movieScore = req.body.score;
+    const movieReviewer = req.body.reviewer;
+    const moviePublication = req.body.publication;
+
+    // Insert the Document from the POST info
+    movieCollection.insert({
+          title: movieTitle,
+          release: movieRelease,
+          score: movieScore,
+          reviewer: movieReviewer,
+          publication: moviePublication
+    })
+    .then(function() {
+        res.json({msg: "Inserted Document OK"});
+    })
+    .catch((error) => { // If error occurs
+      console.log(error);
+     });
+});  // end POST
+// ================= End Route =============================================
+
+
+// ============ Put to Update Document Movie Route w/CORS support ==========
 router.options('updatemovie/:id', cors());  
 router.put('/updatemovie/:id', cors(), function(req, res) {
     const db = req.db;
-    console.log(req.params.id);
-    
+        
     const movieCollection = db.get("movies");
     const movieToUpdate = req.params.id; // Assign collection document id from url :id value
     const movieTitle = req.body.title;
@@ -68,9 +98,16 @@ router.put('/updatemovie/:id', cors(), function(req, res) {
         .then(function(movie) {    // .then uses what is returned from promise(the .find op) ie, movie
               // Send the response as a JSON array
             res.json(movie);      
-        });
+        })
+        .catch((error) => { // If error occurs
+          console.log(error);
+         });
+    })
+    .catch((error) => { // If error occurs
+      console.log(error);
     });
 
 });
+// ================= End Route =============================================
 
 module.exports = router;
