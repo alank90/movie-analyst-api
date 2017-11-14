@@ -60,7 +60,11 @@ router.post('/addmovie', cors(), function(req, res) {
           publication: moviePublication
     })
     .then(function() {
-        res.json({msg: "Inserted Document OK"});
+        movieCollection.find({})
+        .then(function(movies) {
+              // Send the response as a JSON array
+            res.json(movies);      
+        });
     })
     .catch((error) => { // If error occurs
       console.log(error);
