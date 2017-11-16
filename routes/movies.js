@@ -3,10 +3,10 @@ const express = require('express');
 const router = express.Router();
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const morgan = require('morgan'); // enhance logger
+const morgan = require('morgan'); // enhanced logger
 
 // We need to use cors here because API is on different port then APP.
-// See below we use cors package one of our callbacks on PUT route to send correct headers
+// See below we use cors package on our callbacks to send correct headers on the http OPTIONS response
 router.use(cors());
 
 // body-parser allows express to go into request body and extract 
@@ -113,5 +113,30 @@ router.put('/updatemovie/:id', cors(), function(req, res) {
 
 });
 // ================= End Route =============================================
+
+// ============ Delete Document Movie Route w/CORS support =================
+router.options('/deletemovie', cors());
+router.delete('/deletemovie/:id',cors(), function(req,res) {
+      const db = req.db;
+
+      const movieCollection = db.get("movies");
+      const movieToDelete = req.params.id; // Assign collection document id from url :id value
+      console.log(movieToDelete);
+      
+      movieCollection.remove({'_id': movieToDelete})
+      .then(function() {
+          movieCollection.find({})
+          .then(function(movies) {
+                // Send the Updated Collection as a JSON array
+              res.json(movies);      
+          });
+      })
+      .catch((error) => { // If error occurs
+        console.log(error);
+      });
+
+});
+// ================= End Route =============================================
+
 
 module.exports = router;
