@@ -121,15 +121,12 @@ router.delete('/deletemovie/:id',cors(), function(req,res) {
 
       const movieCollection = db.get("movies");
       const movieToDelete = req.params.id; // Assign collection document id from url :id value
-      console.log(movieToDelete);
-      
+            
       movieCollection.remove({'_id': movieToDelete})
       .then(function() {
-          movieCollection.find({})
-          .then(function(movies) {
-                // Send the Updated Collection as a JSON array
-              res.json(movies);      
-          });
+          // Send Back the deleted movieID
+          console.log(movieToDelete);
+          res.send(movieToDelete);
       })
       .catch((error) => { // If error occurs
         console.log(error);
