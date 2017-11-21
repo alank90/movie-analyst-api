@@ -60,10 +60,10 @@ router.post('/addmovie', cors(), function(req, res) {
           publication: moviePublication
     })
     .then(function() {
-        movieCollection.find({})
-        .then(function(movies) {
-              // Send the response as a JSON array
-            res.json(movies);      
+        movieCollection.find({title: movieTitle}, {sort: {_id: -1}, limit: 1})
+        .then(function(movie) {
+             // Send the response as a JSON array
+            res.json(movie);      
         });
     })
     .catch((error) => { // If error occurs
