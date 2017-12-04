@@ -6,7 +6,7 @@ const jwt = require('express-jwt');
 const rsaValidation = require('auth0-api-jwt-rsa-validation');
 
 // Mongodb Dependencies
-const mongo = require ('mongodb');
+const mongo = require('mongodb');
 const monk = require('monk');
 const db = monk('localhost:27017/movie-analyst');
 
@@ -36,7 +36,7 @@ const jwtCheck = jwt({
 });
 
 const guard = function (req, res, next) {
-        
+
     // we’ll use a case switch statement on the route requested
     switch (req.path) {
         // if the request is for movie reviews we’ll check to see if the token has general scope
@@ -99,7 +99,7 @@ const guard = function (req, res, next) {
 // Make our db accessible to our router.
 // Without this middleware, have to include monk 
 // in every route
-app.use(function(req,res,next){
+app.use(function (req, res, next) {
     req.db = db;
     next();
 });
