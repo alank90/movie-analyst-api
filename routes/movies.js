@@ -76,6 +76,7 @@ router.post('/addmovie', cors(), function (req, res) {
 // ============ Put to Update Document Movie Route w/CORS support ==========
 router.options('updatemovie/:id', cors());
 router.put('/updatemovie/:id', cors(), function (req, res) {
+  console.log("Im in router.put /updatemovie in main.js api");
   const db = req.db;
 
   const movieCollection = db.get("movies");

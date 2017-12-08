@@ -4,6 +4,8 @@ const app = express();
 const path = require('path');
 const jwt = require('express-jwt');
 const rsaValidation = require('auth0-api-jwt-rsa-validation');
+const cors = require('cors');
+
 
 // Mongodb Dependencies
 const mongo = require('mongodb');
@@ -36,11 +38,15 @@ const jwtCheck = jwt({
 });
 
 const guard = function (req, res, next) {
-
-    // we’ll use a case switch statement on the route requested
+    const routePath = req.path;
+    const temp = routePath.lastIndexOf('/');
+    const routeID = routePath.substring(temp + 1);
+    
+     // we’ll use a case switch statement on the route requested
     switch (req.path) {
         // if the request is for movie reviews we’ll check to see if the token has general scope
         case '/movies': {
+            console.log("In /movies");
             const permissions = ['general'];
             for (var i = 0; i < permissions.length; i++) {
                 if (req.user.scope.includes(permissions[i])) {
@@ -48,10 +54,23 @@ const guard = function (req, res, next) {
                 } else {
                     res.send(403, { message: 'Forbidden' });
                 }
-
             }
             break;
         }
+
+        case `/movies/updatemovie/${routeID}`: {
+            console.log("In case /movies/updatemovie");
+            const permissions = ['general'];
+            for (var i = 0; i < permissions.length; i++) {
+                if (req.user.scope.includes(permissions[i])) {
+                    next();
+                } else {
+                    res.send(403, { message: 'Forbidden' });
+                }
+            }
+            break;
+        }
+
         // Same for reviewers
         case '/reviewers': {
             const permissions = ['general'];
@@ -92,9 +111,13 @@ const guard = function (req, res, next) {
     }
 };
 
+// Enable CORS on ALL Requests
+app.use(cors());
+app.options('*', cors()); // Enable All Pre-Flight CORS Requests
+
 // Enable the use of the jwtCheck middleware in all of our routes
-// app.use(jwtCheck);
-// app.use(guard); 
+app.use(jwtCheck);
+app.use(guard); 
 
 // Make our db accessible to our router.
 // Without this middleware, have to include monk 
