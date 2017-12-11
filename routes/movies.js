@@ -40,7 +40,7 @@ router.get('/', function (req, res) {
 });
 
 // ============ Add a Document Movie Route  w/CORS support =====================
-router.post('/addmovie', cors(), function (req, res) {
+router.post('/addmovie', function (req, res) {
   const db = req.db;
 
   const movieCollection = db.get("movies");
@@ -73,7 +73,7 @@ router.post('/addmovie', cors(), function (req, res) {
 
 
 // ============ Put to Update Document Movie Route w/CORS support ==========
-router.put('/updatemovie/:id', cors(), function (req, res) {
+router.put('/updatemovie/:id', function (req, res) {
   const db = req.db;
 
   const movieCollection = db.get("movies");
@@ -113,7 +113,7 @@ router.put('/updatemovie/:id', cors(), function (req, res) {
 // ================= End Route =============================================
 
 // ============ Delete Document Movie Route w/CORS support =================
-router.delete('/deletemovie/:id', cors(), function (req, res) {
+router.delete('/deletemovie/:id', function (req, res) {
   const db = req.db;
 
   const movieCollection = db.get("movies");
