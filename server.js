@@ -127,7 +127,6 @@ const guard = function (req, res, next) {
         // For the pending route, we’ll check to make sure the token has the scope of admin before returning the results.
         case '/pending': {
             const permissions = ['admin'];
-            // console.log(req.user.scope);
             for (var i = 0; i < permissions.length; i++) {
                 if (req.user.scope.includes(permissions[i])) {
                     next();

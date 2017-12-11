@@ -122,7 +122,6 @@ router.delete('/deletemovie/:id', function (req, res) {
   movieCollection.remove({ '_id': movieToDelete })
     .then(function () {
       // Send Back the deleted movieID
-      console.log(movieToDelete);
       res.send(movieToDelete);
     })
     .catch((error) => { // If error occurs
