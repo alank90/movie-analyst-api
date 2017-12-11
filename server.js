@@ -20,6 +20,7 @@ const publications_route = require('./routes/publications');
 const pending_route = require('./routes/pending');
 
 
+
 // ===================================================================================================
 // ============= Middlware Below This Line =========================================================== 
 // ===================================================================================================
@@ -85,7 +86,6 @@ const guard = function (req, res, next) {
 
             // Delete Movie case
             case `/movies/deletemovie/${routeID}`: {
-                console.log("Inside case /deletemovie");
                 const permissions = ['general'];
                 for (var i = 0; i < permissions.length; i++) {
                     if (req.user.scope.includes(permissions[i])) {

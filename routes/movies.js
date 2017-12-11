@@ -21,9 +21,9 @@ if (router.get('env') == 'production') {
   router.use(morgan('dev'));
 }
 
-
+// =====================================================================
 // ============== Implement the /movies API endpoints ==================
-// ====================================================================
+// =====================================================================
 
 // ============== GET for movie route =================================
 router.get('/', function (req, res) {
@@ -40,7 +40,6 @@ router.get('/', function (req, res) {
 });
 
 // ============ Add a Document Movie Route  w/CORS support =====================
-router.options('/addmovie', cors());
 router.post('/addmovie', cors(), function (req, res) {
   const db = req.db;
 
@@ -74,9 +73,7 @@ router.post('/addmovie', cors(), function (req, res) {
 
 
 // ============ Put to Update Document Movie Route w/CORS support ==========
-router.options('updatemovie/:id', cors());
 router.put('/updatemovie/:id', cors(), function (req, res) {
-  console.log("Im in router.put /updatemovie in main.js api");
   const db = req.db;
 
   const movieCollection = db.get("movies");
@@ -116,7 +113,6 @@ router.put('/updatemovie/:id', cors(), function (req, res) {
 // ================= End Route =============================================
 
 // ============ Delete Document Movie Route w/CORS support =================
-router.options('/deletemovie/:id', cors());
 router.delete('/deletemovie/:id', cors(), function (req, res) {
   const db = req.db;
 
